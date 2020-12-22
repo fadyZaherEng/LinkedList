@@ -1,0 +1,256 @@
+// project of linked list:
+#include  <iostream>
+#include <stdlib.h>
+#include <string>
+using namespace std;
+//insert
+//search
+//delete
+//sort
+//display
+
+// diclaration of linked list:
+struct node
+{
+int data;
+node* next;
+};
+//head node:
+void first_node(node*head,int a);
+//the first function of insert:
+void insert(int n,node*&head);
+//the second function of delete:
+bool Delete(node*p,node*&head,int y);
+//the three function of display:
+void display(node*&head);
+//the four function of search:
+node* search(int n,node*&head);
+//five of function is sort:
+void sort(node*head);
+//function of options:
+void fun_option();
+int main(){
+node*head=new node;
+int c=0;
+string another_operation ;
+bool one_time=false;
+//prevent run time problems
+do{
+system("cls");
+int insert_data,num_of_deletes;
+int delete_data,num_of_inserts;
+    fun_option();
+int choice;
+cin>>choice;
+while (choice!=1&&choice!=2&&choice!=3&&choice!=4)
+{
+cout<<"invalid value ..please enter again:\n";
+cin>>choice;
+if(cin.fail())
+{
+string choice_char;
+cin.clear();
+cin>>choice_char;
+}
+}
+if(choice==1)
+{
+system("cls");
+one_time=true;
+if(!c)
+{
+cout<<"enter the data of the node number 1"<<endl;
+cin>>insert_data;
+}
+if(!c)
+{
+first_node(head,insert_data);
+}
+cout<<"how many elemets wouid you like to insert:"<<endl;
+cin>>num_of_inserts;
+for(int i=0;i<num_of_inserts;i++)
+{
+//cout<<"enter the data of the node number "<<i+2<<endl;
+cin>>insert_data;
+insert(insert_data,head);
+}
+cout<<endl;
+c=1;
+}
+else if(choice==2)
+{
+system("cls");
+if(one_time)
+{
+sort(head);
+cout<<"mision complete"<<endl;
+    }
+    else if(!one_time)
+    {
+    cout<<"there is no data to sort...yet\n\n";
+    }
+}
+    else if(choice==3)
+    {
+    if(one_time)
+    {
+    display(head);
+    }
+    else if(!one_time)
+    {
+    cout<<"there is no data to display..yet\n\n";
+}
+}
+else if(choice==4)
+{
+system("cls");
+if(one_time)
+{
+cout<<"how many of the node that you want to delete"<<endl;
+cin>>num_of_deletes;
+for(int i=0;i<num_of_deletes;i++)
+{
+cout<<"enter the data of the node that you want to delete"<<i+1<<endl;
+cin>>delete_data;
+if(Delete(search(delete_data,head),head,num_of_deletes)==true)
+{
+cout<<"node deleted"<<endl;
+}
+}
+display(head);
+}
+else if(!one_time)
+{
+cout<<"there is no data to delete..yet\n\n"<<endl;
+}
+}
+cout<<"do you want another operation ?"<<endl<<"(Y / N)"<<endl;
+cin>>another_operation;
+while(another_operation!="y"&&another_operation!="Y"&&another_operation!="n"&&another_operation!="N")
+{
+cout<<"invalid character...please enter Y/N:";
+cin>>another_operation;
+}
+}while(another_operation=="Y"||another_operation=="y");
+//return 0;
+system("pause");
+}
+//head node:
+void first_node(node*head,int a)
+{
+//copy number:
+head-> data =a;
+//next of head opints to null:
+head->next=NULL;
+}
+//the first function of insert:
+
+void insert(int n,node*&head)
+{
+node*c=new node;
+c->data=n;
+c->next=NULL;
+node*currnt =head;
+while(currnt!=NULL)
+{
+if(currnt->next==NULL)
+{
+currnt->next=c;
+return;
+}
+currnt=currnt->next;
+}
+}
+//the second function of delete:
+bool Delete(node*p,node*&head,int delete_data)
+{
+//p is pointer look for node that user want delete it:
+if(p==NULL)
+{
+cout<<"no node found in list to delete.\n ";
+return false ;
+}
+if(p==head)
+{
+head=p->next;
+delete p;
+return true;
+}
+node*curr=head;
+while(curr)
+{
+if(curr->next==p)
+{
+//this step to move to new node and not lose remainder of linked list:
+curr->next=p->next;
+delete p;
+return true;
+}
+curr=curr->next;
+}
+return false;
+}
+
+//the three function of display:
+void display(node*&head)
+{
+cout<<"your linked list now is"<<endl;
+node*curr=head;
+while(curr)
+{
+cout<<curr->data<<"  "<<char(175)<<"  "<<char(40)<<curr->next<<char(41)<<endl;
+curr=curr->next;
+}
+cout<<endl;
+}
+
+//the four function of search:
+node* search(int n,node*&head)
+{
+node*curr=head;
+while (curr)
+{
+if(curr->data==n)
+{
+return curr;
+}
+else
+curr=curr->next;
+}
+return NULL;
+}
+
+//five of function is sort:
+void sort(node*head)
+{
+node*first,*second,*swap;
+first=head;
+swap=new node();
+bool x;
+do
+{
+x=false;
+second=first->next;
+while(second!=NULL)
+{
+if(first->data<second->data)
+{
+swap->data=first->data;
+first->data=second->data;
+second->data=swap->data;
+x=true;
+}
+first=second;
+second=first->next;
+}
+first=head;
+}while(x==true);
+delete swap;
+}
+void fun_option()
+{
+cout<<"1-insert"<<endl;
+cout<<"2-sort"<<endl;
+cout<<"3-display"<<endl;
+cout<<"4-delete"<<endl;
+}
